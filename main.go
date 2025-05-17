@@ -20,17 +20,17 @@ func main() {
 	}
 	phi := phase.RandomPhaseAngles(m)
 
-	a := make([]float64, m)
+	amplitude := make([]float64, m)
 	for i := range m {
-		a[i] = 1.0
+		amplitude[i] = 1.0
 	}
 
 	synthszr := synthesizer.New(dt, omega, phi, envelope.Identity)
-	y := synthszr.Synthesize(n, a)
+	timehist := synthszr.Synthesize(n, amplitude)
 
 	t := 0.0
 	for i := range n {
-		fmt.Printf("%7.2f %8.3f\n", t, y[i])
+		fmt.Printf("%7.2f %8.3f\n", t, timehist[i])
 		t += dt
 	}
 }
