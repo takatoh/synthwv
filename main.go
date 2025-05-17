@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/takatoh/synthwv/envelope"
 	"github.com/takatoh/synthwv/phase"
 	"github.com/takatoh/synthwv/synthesizer"
 )
@@ -24,7 +25,7 @@ func main() {
 		a[i] = 1.0
 	}
 
-	synthszr := synthesizer.New(dt, omega, phi)
+	synthszr := synthesizer.New(dt, omega, phi, envelope.Identity)
 	y := synthszr.Synthesize(n, a)
 
 	t := 0.0
