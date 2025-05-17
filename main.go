@@ -27,7 +27,9 @@ func main() {
 	synthszr := synthesizer.New(dt, omega, phi)
 	y := synthszr.Synthesize(n, a)
 
+	t := 0.0
 	for i := range n {
-		fmt.Printf("%8.3f\n", y[i])
+		fmt.Printf("%7.2f %8.3f\n", t, y[i])
+		t += dt
 	}
 }
