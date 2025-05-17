@@ -5,9 +5,9 @@ import (
 	"math/rand"
 )
 
-func RandomPhaseAngles(n int) []float64 {
-	phi := make([]float64, n)
-	for i := range n {
+func RandomPhaseAngles(m int) []float64 {
+	phi := make([]float64, m)
+	for i := range m {
 		phi[i] = rand.Float64() * 2.0 * math.Pi
 	}
 	return phi
