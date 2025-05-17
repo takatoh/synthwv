@@ -26,7 +26,7 @@ func (s *Synthesizer) Synthesize(n int, a []float64) []float64 {
 		for i := range m {
 			y[j] += a[i] * math.Sin(s.omega[i]*t+s.phi[i])
 		}
-		y[j] = s.envelope(y[j])
+		y[j] = s.envelope(t) * y[j]
 		t += s.dt
 	}
 	return y
