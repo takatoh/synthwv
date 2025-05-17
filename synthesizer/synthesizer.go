@@ -22,9 +22,9 @@ func (s *Synthesizer) Synthesize(n int, a []float64) []float64 {
 	m := len(s.omega)
 	for j := range n {
 		for i := range m {
-			y[j] = a[i] * math.Sin(s.omega[i]*t+s.phi[i])
-			t += s.dt
+			y[j] += a[i] * math.Sin(s.omega[i]*t+s.phi[i])
 		}
+		t += s.dt
 	}
 	return y
 }
