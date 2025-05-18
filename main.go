@@ -30,7 +30,7 @@ func main() {
 	synthszr := synthesizer.New(dt, omega, phi, envelope.Identity)
 	tests := [](func([]float64) bool){test1, test2}
 	inspectr := inspector.New(tests)
-	itertr := iterator.New(synthszr, inspectr)
+	itertr := iterator.New(synthszr, inspectr, 3)
 	timehist := itertr.Iterate(n, amplitude)
 
 	t := 0.0
