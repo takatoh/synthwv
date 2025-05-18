@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/takatoh/synthwv/envelope"
+	"github.com/takatoh/synthwv/inspector"
+	"github.com/takatoh/synthwv/iterator"
 	"github.com/takatoh/synthwv/phase"
 	"github.com/takatoh/synthwv/synthesizer"
 )
@@ -26,11 +28,22 @@ func main() {
 	}
 
 	synthszr := synthesizer.New(dt, omega, phi, envelope.Identity)
-	timehist := synthszr.Synthesize(n, amplitude)
+	tests := [](func([]float64) bool){test1, test2}
+	inspectr := inspector.New(tests)
+	itertr := iterator.New(synthszr, inspectr)
+	timehist := itertr.Iterate(n, amplitude)
 
 	t := 0.0
 	for i := range n {
 		fmt.Printf("%7.2f %8.3f\n", t, timehist[i])
 		t += dt
 	}
+}
+
+func test1(values []float64) bool {
+	return true
+}
+
+func test2(values []float64) bool {
+	return false
 }
