@@ -23,7 +23,7 @@ func (itr *Iterator) Iterate(n int, amp []float64) []float64 {
 	count := 0
 	for {
 		count += 1
-		y := itr.synthesizer.Synthesize(n, amp)
+		y = itr.synthesizer.Synthesize(n, amp)
 		if itr.inspector.Inspect(y) {
 			break
 		} else if count == iter_limit {
