@@ -1,7 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"os"
+	"path/filepath"
 
 	"github.com/takatoh/synthwv/envelope"
 	"github.com/takatoh/synthwv/inspector"
@@ -11,6 +14,19 @@ import (
 )
 
 func main() {
+	progName := filepath.Base(os.Args[0])
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr,
+			`Usage:
+  %s [options]
+
+Options:
+`, progName)
+		flag.PrintDefaults()
+	}
+	optLevel := flag.Int("level", 2, "Specify level 1 or 2 (default to 2).")
+	flag.Parse()
+
 	n := 4096
 	m := n / 2
 	dt := 0.01
@@ -27,7 +43,13 @@ func main() {
 		amplitude[i] = 1.0
 	}
 
-	synthszr := synthesizer.New(dt, omega, phi, envelope.Identity)
+	var env func(float64) float64
+	if *optLevel == 1 {
+		env = envelope.Level1
+	} else {
+		env = envelope.Level2
+	}
+	synthszr := synthesizer.New(dt, omega, phi, env)
 	tests := [](func([]float64) bool){test1, test2}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
