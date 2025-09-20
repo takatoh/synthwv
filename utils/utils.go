@@ -50,3 +50,30 @@ func LoadDesignSpectrum(csvfile string) ([]float64, []float64, error) {
 	}
 	return t, sa, nil
 }
+
+func Interpolate(xs []float64, ys []float64, exs []float64) ([]float64, []float64) {
+	var iys []float64
+
+	for i := range exs {
+		v0, v1 := 0.0, 0.0
+		for j := range xs {
+			v1 = xs[j]
+			if v1 <= v0 {
+				continue
+			}
+			if v1 == exs[i] {
+				iys = append(iys, ys[j])
+				v0 = v1
+				break
+			} else if exs[i] < v1 {
+				v := (ys[j] - ys[j-1]) / (v1 - v0) * (exs[i] - exs[i-1])
+				iys = append(iys, v)
+				break
+			} else {
+				v0 = v1
+			}
+		}
+	}
+
+	return exs, iys
+}
