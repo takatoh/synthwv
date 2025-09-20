@@ -31,6 +31,7 @@ Options:
 	optLevel := flag.Int("level", 2, "Specify level 1 or 2.")
 	flag.Parse()
 
+	// Load a target spectrum for design
 	dsaFile := flag.Arg(0)
 	dsaT, dsaVal, err := utils.LoadDesignSpectrum(dsaFile)
 	if err != nil {
@@ -49,6 +50,7 @@ Options:
 	for i := range m {
 		omega[i] = float64(i) / ndt
 	}
+
 	phi := phase.RandomPhaseAngles(m)
 
 	amplitude := make([]float64, m)
@@ -56,18 +58,22 @@ Options:
 		amplitude[i] = 1.0
 	}
 
+	// Set envelope function
 	var env func(float64) float64
 	if *optLevel == 1 {
 		env = envelope.Level1
 	} else {
 		env = envelope.Level2
 	}
+
+	// Synthesize a wave
 	synthszr := synthesizer.New(dt, omega, phi, env)
 	tests := [](func([]float64) bool){test1, test2}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
 	timehist := itertr.Iterate(n, amplitude)
 
+	// Output a result wave time history
 	t := 0.0
 	for i := range n {
 		fmt.Printf("%7.2f %8.3f\n", t, timehist[i])
