@@ -6,11 +6,13 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/takatoh/respspec/response"
 	"github.com/takatoh/synthwv/envelope"
 	"github.com/takatoh/synthwv/inspector"
 	"github.com/takatoh/synthwv/iterator"
 	"github.com/takatoh/synthwv/phase"
 	"github.com/takatoh/synthwv/synthesizer"
+	"github.com/takatoh/synthwv/utils"
 )
 
 func main() {
@@ -18,7 +20,7 @@ func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr,
 			`Usage:
-  %s [options]
+  %s [options] <DSa.csv>
 
 Options:
 `, progName)
@@ -28,6 +30,15 @@ Options:
 	optDt := flag.Float64("dt", 0.01, "DT")
 	optLevel := flag.Int("level", 2, "Specify level 1 or 2.")
 	flag.Parse()
+
+	dsaFile := flag.Arg(0)
+	dsaT, dsaVal, err := utils.LoadDesignSpectrum(dsaFile)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	defaultPeriod := response.DefaultPeriod()
+	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod)
 
 	dt := *optDt
 	n := int(*optLength / dt)
