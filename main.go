@@ -24,12 +24,14 @@ Options:
 `, progName)
 		flag.PrintDefaults()
 	}
+	optLength := flag.Float64("length", 60.0, "Time-history length(sec).")
+	optDt := flag.Float64("dt", 0.01, "DT")
 	optLevel := flag.Int("level", 2, "Specify level 1 or 2 (default to 2).")
 	flag.Parse()
 
-	n := 4096
+	dt := *optDt
+	n := int(*optLength / dt)
 	m := n / 2
-	dt := 0.01
 	ndt := float64(n) * dt
 
 	omega := make([]float64, m)
