@@ -26,8 +26,8 @@ func New(t, dsa []float64) *Fitting {
 	return p
 }
 
-func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave, h float64) bool {
-	resp := response.Spectrum(acc, f.Period, h)
+func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
+	resp := response.Spectrum(acc, f.Period, 0.05)
 	minRatio := 1.0
 	for i := range resp {
 		ratio := f.DSa[i] / resp[i].Sa
