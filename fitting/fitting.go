@@ -30,7 +30,7 @@ func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	minRatio := 1.0
 	for i := range resp {
-		ratio := f.DSa[i] / resp[i].Sa
+		ratio := resp[i].Sa / f.DSa[i]
 		if ratio < minRatio {
 			minRatio = ratio
 		}
