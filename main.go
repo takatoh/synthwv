@@ -81,6 +81,8 @@ Options:
 	fittingTestr := fitting.New(dsaT, dsaVal)
 	tests := [](func(*seismicwave.Wave) bool){
 		fittingTestr.MinSpecRatio,
+		fittingTestr.VariationCoeff,
+		fittingTestr.MeanErr,
 	}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
