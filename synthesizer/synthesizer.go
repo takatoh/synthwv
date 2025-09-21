@@ -10,9 +10,10 @@ type Synthesizer struct {
 	envelope func(float64) float64
 }
 
-func New(dt float64, omega, phi []float64, envelope func(float64) float64) *Synthesizer {
+func New(dt float64, n int, omega, phi []float64, envelope func(float64) float64) *Synthesizer {
 	p := new(Synthesizer)
 	p.Dt = dt
+	p.N = n
 	p.omega = omega
 	p.phi = phi
 	p.envelope = envelope
