@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	"github.com/takatoh/respspec/response"
+	"github.com/takatoh/seismicwave"
 	"github.com/takatoh/synthwv/envelope"
 	"github.com/takatoh/synthwv/fitting"
 	"github.com/takatoh/synthwv/inspector"
@@ -70,7 +71,9 @@ Options:
 	// Synthesize a wave
 	synthszr := synthesizer.New(dt, omega, phi, env)
 	fittingTestr := fitting.New(dsaT, dsaVal)
-	tests := [](func([]float64) bool){test1, test2, fittingTestr.MinSpecRatio}
+	tests := [](func(*seismicwave.Wave, float64) bool){
+		fittingTestr.MinSpecRatio
+	}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
 	timehist := itertr.Iterate(n, amplitude)
@@ -81,12 +84,4 @@ Options:
 		fmt.Printf("%7.2f %8.3f\n", t, timehist[i])
 		t += dt
 	}
-}
-
-func test1(values []float64) bool {
-	return true
-}
-
-func test2(values []float64) bool {
-	return false
 }
