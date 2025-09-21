@@ -71,11 +71,11 @@ Options:
 	// Synthesize a wave
 	synthszr := synthesizer.New(dt, omega, phi, env)
 	fittingTestr := fitting.New(dsaT, dsaVal)
-	tests := [](func(*seismicwave.Wave, float64) bool){
-		fittingTestr.MinSpecRatio
+	tests := [](func(*seismicwave.Wave) bool){
+		fittingTestr.MinSpecRatio,
 	}
 	inspectr := inspector.New(tests)
-	itertr := iterator.New(synthszr, inspectr, 3)
+	itertr := iterator.New(synthszr, inspectr, 3, dt)
 	timehist := itertr.Iterate(n, amplitude)
 
 	// Output a result wave time history
