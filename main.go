@@ -55,9 +55,9 @@ Options:
 
 	phi := phase.RandomPhaseAngles(m)
 
-	amplitude := make([]float64, m)
+	initialAmplitude := make([]float64, m)
 	for i := range m {
-		amplitude[i] = 1.0
+		initialAmplitude[i] = 1.0
 	}
 
 	// Set envelope function
@@ -76,7 +76,7 @@ Options:
 	}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
-	timehist := itertr.Iterate(amplitude)
+	timehist := itertr.Iterate(initialAmplitude)
 
 	// Output a result wave time history
 	t := 0.0
