@@ -1,8 +1,8 @@
 github.com/BurntSushi/toml v0.4.1 h1:GaI7EiDXDRfa8VshkTj7Fym7ha+y8/XxIgD2okUIjLw=
 github.com/BurntSushi/toml v0.4.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
-github.com/takatoh/respspec v0.9.0 h1:AZtTElvwX2U3uWtmrK+PbLp3PNsx/S+EskKfufhhmXk=
-github.com/takatoh/respspec v0.9.0/go.mod h1:KjEC81J3GXWJeHR34+5IcvwpXjSC5siZqASsUzxHu+M=
-github.com/takatoh/sdof v0.1.4 h1:YrvVNTIXnztcHQHybNMbqoONa8TpEnndYmD1kcn82r0=
-github.com/takatoh/sdof v0.1.4/go.mod h1:MmpE2LZ3qfuRKNYbBJsC8KiSJ8dAjU3wR4wETHAeBV4=
-github.com/takatoh/seismicwave v1.0.0 h1:esL+nKF3p9j0oWm5r8S5mgXPCfocmFFgMM90yGj0sa0=
-github.com/takatoh/seismicwave v1.0.0/go.mod h1:tD0lwltKRXWRfnM+VieP7YWnx4Zei9qziFIU/pLFYUQ=
+github.com/takatoh/respspec v0.9.1 h1:ooLyINOsvWZ9NO/HmuMHG07BpdUNVqeeDmN7aT8S/dw=
+github.com/takatoh/respspec v0.9.1/go.mod h1:QGGO8Aooo3plLCppKz6DxbSHeDnvY4Nqqse3N79/1Zk=
+github.com/takatoh/sdof v0.2.3 h1:Qp/NOkFXopMQoKRlNsUC3r6EA5n3kzH3yjfyDRIEX+8=
+github.com/takatoh/sdof v0.2.3/go.mod h1:NRGpDlcdkmtUa7/lWQeS+FGCSIfN1dWkS1TXgHQTYWA=
+github.com/takatoh/seismicwave v1.2.0 h1:5LkFkvwnX2WVW/2Fc8up/LAxIq7rkzJPTT/tDkYr5AQ=
+github.com/takatoh/seismicwave v1.2.0/go.mod h1:12LiGN4MDDHklwcjlwC/uBzuDWfAv4dZHzdCTvs+5gQ=
