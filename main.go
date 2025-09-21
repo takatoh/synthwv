@@ -8,6 +8,7 @@ import (
 
 	"github.com/takatoh/respspec/response"
 	"github.com/takatoh/synthwv/envelope"
+	"github.com/takatoh/synthwv/fitting"
 	"github.com/takatoh/synthwv/inspector"
 	"github.com/takatoh/synthwv/iterator"
 	"github.com/takatoh/synthwv/phase"
@@ -68,7 +69,8 @@ Options:
 
 	// Synthesize a wave
 	synthszr := synthesizer.New(dt, omega, phi, env)
-	tests := [](func([]float64) bool){test1, test2}
+	fittingTestr := fitting.New(dsaT, dsaVal)
+	tests := [](func([]float64) bool){test1, test2, fittingTestr.MinSpecRatio}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
 	timehist := itertr.Iterate(n, amplitude)
