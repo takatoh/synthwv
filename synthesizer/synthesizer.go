@@ -3,7 +3,7 @@ package synthesizer
 import "math"
 
 type Synthesizer struct {
-	dt       float64
+	Dt       float64
 	omega    []float64
 	phi      []float64
 	envelope func(float64) float64
@@ -11,7 +11,7 @@ type Synthesizer struct {
 
 func New(dt float64, omega, phi []float64, envelope func(float64) float64) *Synthesizer {
 	p := new(Synthesizer)
-	p.dt = dt
+	p.Dt = dt
 	p.omega = omega
 	p.phi = phi
 	p.envelope = envelope
@@ -27,7 +27,7 @@ func (s *Synthesizer) Synthesize(n int, a []float64) []float64 {
 			y[j] += a[i] * math.Sin(s.omega[i]*t+s.phi[i])
 		}
 		y[j] = s.envelope(t) * y[j]
-		t += s.dt
+		t += s.Dt
 	}
 	return y
 }
