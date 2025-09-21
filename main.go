@@ -76,7 +76,7 @@ Options:
 	}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3, dt)
-	timehist := itertr.Iterate(n, amplitude)
+	timehist := itertr.Iterate(amplitude)
 
 	// Output a result wave time history
 	t := 0.0
