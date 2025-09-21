@@ -22,12 +22,12 @@ func New(synthesizer *synthesizer.Synthesizer, inspector *inspector.Inspector, i
 	return p
 }
 
-func (itr *Iterator) Iterate(n int, amp []float64) []float64 {
+func (itr *Iterator) Iterate(amp []float64) []float64 {
 	var y []float64
 	count := 0
 	for {
 		count += 1
-		y = itr.synthesizer.Synthesize(n, amp)
+		y = itr.synthesizer.Synthesize(amp)
 		wave := seismicwave.Make("", itr.dt, y)
 		if itr.inspector.Inspect(wave) {
 			break
