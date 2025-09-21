@@ -3,11 +3,10 @@ package inspector
 import "github.com/takatoh/seismicwave"
 
 type Inspector struct {
-	tests []func(*seismicwave.Wave, float64) bool
-	h     float64
+	tests []func(*seismicwave.Wave) bool
 }
 
-func New(tests []func(*seismicwave.Wave, float64) bool, h float64) *Inspector {
+func New(tests []func(*seismicwave.Wave) bool) *Inspector {
 	p := new(Inspector)
 	p.tests = tests
 	return p
@@ -15,7 +14,7 @@ func New(tests []func(*seismicwave.Wave, float64) bool, h float64) *Inspector {
 
 func (ins *Inspector) Inspect(y *seismicwave.Wave) bool {
 	for _, test := range ins.tests {
-		if !(test(y, ins.h)) {
+		if !(test(y)) {
 			return false
 		}
 	}
