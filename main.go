@@ -17,6 +17,8 @@ import (
 	"github.com/takatoh/synthwv/utils"
 )
 
+const progVersion = "v0.1.0"
+
 func main() {
 	progName := filepath.Base(os.Args[0])
 	flag.Usage = func() {
@@ -31,7 +33,13 @@ Options:
 	optLength := flag.Float64("length", 60.0, "Time-history length(sec).")
 	optDt := flag.Float64("dt", 0.01, "DT")
 	optLevel := flag.Int("level", 2, "Specify level 1 or 2.")
+	optVersion := flag.Bool("version", false, "Show version.")
 	flag.Parse()
+
+	if *optVersion {
+		fmt.Println(progVersion)
+		os.Exit(0)
+	}
 
 	// Load a target spectrum for design
 	dsaFile := flag.Arg(0)
