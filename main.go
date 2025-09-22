@@ -38,6 +38,7 @@ Options:
 	optVersion := flag.Bool("version", false, "Show version.")
 	flag.Parse()
 
+	// Show version and exit
 	if *optVersion {
 		fmt.Println(progVersion)
 		os.Exit(0)
@@ -61,15 +62,11 @@ Options:
 
 	dt := *optDt
 	n := int(*optLength / dt)
-	//m := n / 2
-	//ndt := float64(n) * dt
 
+	// Phase angles
 	phi := phase.RandomPhaseAngles(m)
 
-	//ampInitial := make([]float64, m)
-	//for i := range m {
-	//	ampInitial[i] = 1.0
-	//}
+	// Initial values of amplitude
 	ampInitial := initAmplitude(dsaVal, omega)
 
 	// Set envelope function
