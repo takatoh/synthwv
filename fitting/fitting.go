@@ -46,6 +46,12 @@ func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
 	return minRatio >= 0.85
 }
 
+func (f *Fitting) SIRatio(acc *seismicwave.Wave) bool {
+	resp := response.Spectrum(acc, f.Period, 0.05)
+	si := response.CalcSI(resp)
+	return f.DSI/si >= 1.0
+}
+
 func (f *Fitting) VariationCoeff(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	eTotal := 0.0
