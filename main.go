@@ -83,6 +83,7 @@ Options:
 		fittingTestr.MinSpecRatio,
 		fittingTestr.VariationCoeff,
 		fittingTestr.MeanErr,
+		fittingTestr.SIRatio,
 	}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
