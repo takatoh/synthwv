@@ -100,3 +100,12 @@ func printResult(n int, dt float64, timehist []float64) {
 		t += dt
 	}
 }
+
+func printResultAsCsv(n int, dt float64, timehist []float64) {
+	fmt.Println("Time,Acc.")
+	t := 0.0
+	for i := range n {
+		fmt.Printf("%.2f,%.3f\n", t, timehist[i])
+		t += dt
+	}
+}
