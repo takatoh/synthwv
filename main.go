@@ -55,10 +55,12 @@ Options:
 	defaultPeriod := utils.Reverse(response.DefaultPeriod())
 	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod, true)
 
-	m := len(dsaT)
+	// m : number of component waves
+	m := 250
 	omega := make([]float64, m)
 	for i := range m {
-		omega[i] = 2.0 * math.Pi / dsaT[i]
+		f := 0.02 + 0.02*i
+		omega[i] = 2.0 * math.Pi * f
 	}
 
 	dt := *optDt
