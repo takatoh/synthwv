@@ -25,3 +25,14 @@ func Level2(t float64) float64 {
 		return math.Exp(-0.027 * (t - 35.0))
 	}
 }
+
+var Envelopes = map[string]func(float64) float64{
+	"id":     Identity,
+	"level1": Level1,
+	"level2": Level2,
+}
+
+func GetEnveolope(key string) func(float64) float64 {
+	env := Envelopes[key]
+	return env
+}
