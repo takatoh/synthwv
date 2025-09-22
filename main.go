@@ -66,10 +66,11 @@ Options:
 
 	phi := phase.RandomPhaseAngles(m)
 
-	ampInitial := make([]float64, m)
-	for i := range m {
-		ampInitial[i] = 1.0
-	}
+	//ampInitial := make([]float64, m)
+	//for i := range m {
+	//	ampInitial[i] = 1.0
+	//}
+	ampInitial := initAmplitude(dsaVal, omega)
 
 	// Set envelope function
 	env := envelope.GetEnveolope(*optEnvelope)
@@ -97,6 +98,15 @@ Options:
 	} else {
 		printResult(n, dt, timehist)
 	}
+}
+
+func initAmplitude(sa, w []float64) []float64 {
+	m := len(sa)
+	amp := make([]float64, m)
+	for i := range m {
+		amp[i] = 2.0 * w[i] * sa[i]
+	}
+	return amp
 }
 
 func printResult(n int, dt float64, timehist []float64) {
