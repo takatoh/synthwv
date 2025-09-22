@@ -11,6 +11,7 @@ type Fitting struct {
 	Period []float64
 	DSa    []float64
 	DSv    []float64
+	DSI    float64
 }
 
 func New(t, dsa []float64) *Fitting {
@@ -23,6 +24,13 @@ func New(t, dsa []float64) *Fitting {
 		dsv = append(dsv, w*dsa[i])
 	}
 	p.DSv = dsv
+	dummyDSd := make([]float64, len(t))
+	var dspec []*response.Response
+	for i := range t {
+		r := response.NewResponse(p.Period[i], p.DSa[i], p.DSv[i], dummyDSd[i])
+		dspec = append(dspec, r)
+	}
+	p.DSI = response.CalcSI(dspec)
 	return p
 }
 
