@@ -107,9 +107,10 @@ func initAmplitude(sa, w []float64) []float64 {
 }
 
 func printResult(n int, dt float64, timehist []float64) {
+	fmt.Println("   TIME         ACC.")
 	t := 0.0
 	for i := range n {
-		fmt.Printf("%7.2f %8.3f\n", t, timehist[i])
+		fmt.Printf("%7.2f   %10.3f\n", t, timehist[i])
 		t += dt
 	}
 }
