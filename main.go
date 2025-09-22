@@ -90,6 +90,10 @@ Options:
 	timehist := itertr.Iterate(initialAmplitude)
 
 	// Output a result wave time history
+	printResult(n, dt, timehist)
+}
+
+func printResult(n int, dt float64, timehist []float64) {
 	t := 0.0
 	for i := range n {
 		fmt.Printf("%7.2f %8.3f\n", t, timehist[i])
