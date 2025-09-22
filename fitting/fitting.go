@@ -18,18 +18,9 @@ func New(t, dsa []float64) *Fitting {
 	p := new(Fitting)
 	p.Period = t
 	p.DSa = dsa
-	var dsv []float64
-	for i := range dsa {
-		w := 2 * math.Pi / t[i]
-		dsv = append(dsv, w*dsa[i])
-	}
-	p.DSv = dsv
-	dummyDSd := make([]float64, len(t))
-	var dspec []*response.Response
-	for i := range t {
-		r := response.NewResponse(p.Period[i], p.DSa[i], p.DSv[i], dummyDSd[i])
-		dspec = append(dspec, r)
-	}
+	psv, psd := pSvSd(t, dsa)
+	p.DSv = psv
+	dspec := spec(t, dsa, psv, psd)
 	p.DSI = response.CalcSI(dspec)
 	return p
 }
@@ -72,4 +63,24 @@ func (f *Fitting) MeanErr(acc *seismicwave.Wave) bool {
 	}
 	meanErr := math.Abs(1.0 - eTotal/float64(len(resp)))
 	return meanErr <= 0.02
+}
+
+func pSvSd(t, sa []float64) ([]float64, []float64) {
+	var sv []float64
+	var sd []float64
+	for i := range sa {
+		w := 2 * math.Pi / t[i]
+		sv = append(sv, w*sa[i])
+		sd = append(sd, w*w*sa[i])
+	}
+	return sv, sd
+}
+
+func spec(t, sa, sv, sd []float64) []*response.Response {
+	var s []*response.Response
+	for i := range t {
+		r := response.NewResponse(t[i], sa[i], sv[i], sd[i])
+		s = append(s, r)
+	}
+	return s
 }
