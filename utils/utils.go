@@ -51,18 +51,28 @@ func LoadDesignSpectrum(csvfile string) ([]float64, []float64, error) {
 	return t, sa, nil
 }
 
-func Interpolate(xs []float64, ys []float64, exs []float64) ([]float64, []float64) {
+func Interpolate(xs []float64, ys []float64, exs []float64, desc bool) ([]float64, []float64) {
+	txs := make([]float64, len(xs))
+	tys := make([]float64, len(ys))
+	if desc { // xs is descending order
+		txs = Reverse(xs)
+		tys = Reverse(ys)
+	} else { // xs is ascending order
+		copy(txs, xs)
+		copy(tys, ys)
+	}
+
 	var iys []float64
 
 	for i := range exs {
 		v0, v1 := 0.0, 0.0
-		for j := range xs {
-			v1 = xs[j]
+		for j := range txs {
+			v1 = txs[j]
 			if v1 <= v0 {
 				continue
 			}
 			if v1 == exs[i] {
-				iys = append(iys, ys[j])
+				iys = append(iys, tys[j])
 				v0 = v1
 				break
 			} else if exs[i] < v1 {
@@ -76,4 +86,15 @@ func Interpolate(xs []float64, ys []float64, exs []float64) ([]float64, []float6
 	}
 
 	return exs, iys
+}
+
+func Reverse(s []float64) []float64 {
+	n := len(s)
+	sr := make([]float64, n)
+
+	for i := range s {
+		sr[n-i-1] = s[i]
+	}
+
+	return sr
 }
