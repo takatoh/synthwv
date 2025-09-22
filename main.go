@@ -33,6 +33,7 @@ Options:
 	optLength := flag.Float64("length", 60.0, "Time-history length(sec).")
 	optDt := flag.Float64("dt", 0.01, "DT")
 	optLevel := flag.Int("level", 2, "Specify level 1 or 2.")
+	optCsv := flag.Bool("csv", false, "Output as CSV format.")
 	optVersion := flag.Bool("version", false, "Show version.")
 	flag.Parse()
 
@@ -90,7 +91,11 @@ Options:
 	timehist := itertr.Iterate(initialAmplitude)
 
 	// Output a result wave time history
-	printResult(n, dt, timehist)
+	if *optCsv {
+		printResultAsCsv(n, dt, timehist)
+	} else {
+		printResult(n, dt, timehist)
+	}
 }
 
 func printResult(n int, dt float64, timehist []float64) {
