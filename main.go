@@ -51,8 +51,9 @@ Options:
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	defaultPeriod := response.DefaultPeriod()
-	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod)
+	// Period points for fitting judgement
+	defaultPeriod := utils.Reverse(response.DefaultPeriod())
+	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod, true)
 
 	m := len(dsaT)
 	omega := make([]float64, m)
