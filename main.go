@@ -83,7 +83,7 @@ Options:
 	tests := [](func(*seismicwave.Wave) bool){
 		fittingTestr.MinSpecRatio,
 		fittingTestr.VariationCoeff,
-		fittingTestr.MeanErr,
+		fittingTestr.ErrAverage,
 		fittingTestr.SIRatio,
 	}
 	inspectr := inspector.New(tests)

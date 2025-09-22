@@ -54,15 +54,15 @@ func (f *Fitting) VariationCoeff(acc *seismicwave.Wave) bool {
 	return variationCoeff <= 0.05
 }
 
-func (f *Fitting) MeanErr(acc *seismicwave.Wave) bool {
+func (f *Fitting) ErrAverage(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	eTotal := 0.0
 	for i := range resp {
 		e := resp[i].Sa / f.DSa[i]
 		eTotal += e
 	}
-	meanErr := math.Abs(1.0 - eTotal/float64(len(resp)))
-	return meanErr <= 0.02
+	errAve := math.Abs(1.0 - eTotal/float64(len(resp)))
+	return errAve <= 0.02
 }
 
 func pSvSd(t, sa []float64) ([]float64, []float64) {
