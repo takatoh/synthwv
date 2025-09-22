@@ -64,7 +64,7 @@ Options:
 	m := 250
 	omega := make([]float64, m)
 	for i := range m {
-		f := 0.02 + 0.02*i
+		f := 0.02 + 0.02*float64(i)
 		omega[i] = 2.0 * math.Pi * f
 	}
 
