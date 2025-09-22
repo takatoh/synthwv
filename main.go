@@ -51,9 +51,9 @@ Options:
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	// Period points for fitting judgement
-	defaultPeriod := utils.Reverse(response.DefaultPeriod())
-	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod, true)
+	// Period points for fitting judgement, descending order
+	fittingPeriod := utils.Reverse(response.DefaultPeriod())
+	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
 
 	// dt : time delta
 	// n : number of synthesized wave
