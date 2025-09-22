@@ -55,6 +55,11 @@ Options:
 	defaultPeriod := utils.Reverse(response.DefaultPeriod())
 	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod, true)
 
+	// dt : time delta
+	// n : number of synthesized wave
+	dt := *optDt
+	n := int(*optLength / dt)
+
 	// m : number of component waves
 	m := 250
 	omega := make([]float64, m)
@@ -62,9 +67,6 @@ Options:
 		f := 0.02 + 0.02*i
 		omega[i] = 2.0 * math.Pi * f
 	}
-
-	dt := *optDt
-	n := int(*optLength / dt)
 
 	// Phase angles
 	phi := phase.RandomPhaseAngles(m)
