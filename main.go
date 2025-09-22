@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 
@@ -52,15 +53,16 @@ Options:
 	defaultPeriod := response.DefaultPeriod()
 	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, defaultPeriod)
 
-	dt := *optDt
-	n := int(*optLength / dt)
-	m := n / 2
-	ndt := float64(n) * dt
-
+	m := len(dsaT)
 	omega := make([]float64, m)
 	for i := range m {
-		omega[i] = float64(i) / ndt
+		omega[i] = 2.0 * math.Pi / dsaT[i]
 	}
+
+	dt := *optDt
+	n := int(*optLength / dt)
+	//m := n / 2
+	//ndt := float64(n) * dt
 
 	phi := phase.RandomPhaseAngles(m)
 
