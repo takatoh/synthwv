@@ -53,6 +53,7 @@ Options:
 	}
 	// Period points for fitting judgement, descending order
 	fittingPeriod := utils.Reverse(response.DefaultPeriod())
+	// Spectra (Sa) for fitting judgement
 	_, fittingSa := utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
 
 	// dt : time delta
@@ -62,6 +63,8 @@ Options:
 
 	// m : number of component waves
 	m := 250
+	// omega : circular frequency points for synthesize
+	// t : period points for synthesize
 	omega := make([]float64, m)
 	t := make([]float64, m)
 	for i := range m {
@@ -70,10 +73,10 @@ Options:
 		t[i] = 1.0 / f
 	}
 
-	// Phase angles
+	// Phase angles for synthesize
 	phi := phase.RandomPhaseAngles(m)
 
-	// Initial values of amplitude
+	// Initial values of amplitude for sysnthesize
 	ampInitial := initAmplitude(dsaT, dsaVal, omega)
 
 	// Set envelope function
@@ -87,10 +90,10 @@ Options:
 	synthszr := synthesizer.New(dt, n, omega, phi, env)
 	fittingTestr := fitting.New(fittingPeriod, fittingSa)
 	tests := [](func(*seismicwave.Wave) bool){
-		fittingTestr.MinSpecRatio,
-		fittingTestr.VariationCoeff,
-		fittingTestr.ErrAverage,
-		fittingTestr.SIRatio,
+		fittingTestr.MinSpecRatio,   // minimum spectra retio
+		fittingTestr.VariationCoeff, // coefficient of variation
+		fittingTestr.ErrAverage,     // error average
+		fittingTestr.SIRatio,        // SI ratio
 	}
 	inspectr := inspector.New(tests)
 	itertr := iterator.New(synthszr, inspectr, 3)
@@ -104,6 +107,7 @@ Options:
 	}
 }
 
+// Initial values of amplitude for synthesize
 func initAmplitude(t, sa, w []float64) []float64 {
 	m := len(w)
 	et := make([]float64, m)
@@ -114,6 +118,7 @@ func initAmplitude(t, sa, w []float64) []float64 {
 	return amp
 }
 
+// Print result
 func printResult(n int, dt float64, timehist []float64) {
 	fmt.Println("   TIME         ACC.")
 	t := 0.0
@@ -123,6 +128,7 @@ func printResult(n int, dt float64, timehist []float64) {
 	}
 }
 
+// Print result as CSV format
 func printResultAsCsv(n int, dt float64, timehist []float64) {
 	fmt.Println("Time,Acc.")
 	t := 0.0
