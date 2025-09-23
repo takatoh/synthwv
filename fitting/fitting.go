@@ -61,8 +61,8 @@ func (f *Fitting) ErrAverage(acc *seismicwave.Wave) bool {
 		e := resp[i].Sa / f.DSa[i]
 		eTotal += e
 	}
-	errAve := math.Abs(1.0 - eTotal/float64(len(resp)))
-	return errAve <= 0.02
+	errAve := eTotal / float64(len(resp))
+	return math.Abs(1.0-errAve) <= 0.02
 }
 
 func pSvSd(t, sa []float64) ([]float64, []float64) {
