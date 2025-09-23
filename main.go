@@ -77,7 +77,7 @@ Options:
 	phi := phase.RandomPhaseAngles(m)
 
 	// Initial values of amplitude for sysnthesize
-	ampInitial := initAmplitude(dsaT, dsaVal, omega)
+	ampInitial := initAmplitude(dsaT, dsaVal, t)
 
 	// Set envelope function
 	env := envelope.GetEnveolope(*optEnvelope)
@@ -108,13 +108,8 @@ Options:
 }
 
 // Initial values of amplitude for synthesize
-func initAmplitude(t, sa, w []float64) []float64 {
-	m := len(w)
-	et := make([]float64, m)
-	for i := range m {
-		et[i] = 2.0 * math.Pi / w[i]
-	}
-	_, amp := utils.Interpolate(t, sa, et, true)
+func initAmplitude(dsaT, dsaVal, t []float64) []float64 {
+	_, amp := utils.Interpolate(dsaT, dsaVal, t, true)
 	return amp
 }
 
