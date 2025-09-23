@@ -111,20 +111,12 @@ Options:
 func initAmplitude(dsaT, dsaVal, t []float64) []float64 {
 	amp := make([]float64, len(t))
 	_, sa := utils.Interpolate(dsaT, dsaVal, t, true)
-	psv := pSv(sa, t)
-	for i := range psv {
-		amp[i] = 2.0 * psv[i]
-	}
-	return amp
-}
-
-func pSv(sa, t []float64) []float64 {
-	psv := make([]float64, len(sa))
 	for i := range sa {
 		w := 2.0 * math.Pi / t[i]
-		psv[i] = w * sa[i]
+		psv := w * sa[i]
+		amp[i] = 2.0 * psv
 	}
-	return psv
+	return amp
 }
 
 // Print result
