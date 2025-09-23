@@ -53,7 +53,7 @@ Options:
 	}
 	// Period points for fitting judgement, descending order
 	fittingPeriod := utils.Reverse(response.DefaultPeriod())
-	dsaT, dsaVal = utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
+	_, fittingSa := utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
 
 	// dt : time delta
 	// n : number of synthesized wave
@@ -63,16 +63,18 @@ Options:
 	// m : number of component waves
 	m := 250
 	omega := make([]float64, m)
+	t := make([]float64, m)
 	for i := range m {
-		f := 0.02 + 0.02*float64(i)
+		f := 0.2 + 0.2*float64(i)
 		omega[i] = 2.0 * math.Pi * f
+		t[i] = 1.0 / f
 	}
 
 	// Phase angles
 	phi := phase.RandomPhaseAngles(m)
 
 	// Initial values of amplitude
-	ampInitial := initAmplitude(dsaVal, omega)
+	ampInitial := initAmplitude(dsaT, dsaVal, omega)
 
 	// Set envelope function
 	env := envelope.GetEnveolope(*optEnvelope)
@@ -83,7 +85,7 @@ Options:
 
 	// Synthesize a wave
 	synthszr := synthesizer.New(dt, n, omega, phi, env)
-	fittingTestr := fitting.New(dsaT, dsaVal)
+	fittingTestr := fitting.New(fittingPeriod, fittingSa)
 	tests := [](func(*seismicwave.Wave) bool){
 		fittingTestr.MinSpecRatio,
 		fittingTestr.VariationCoeff,
@@ -102,12 +104,13 @@ Options:
 	}
 }
 
-func initAmplitude(sa, w []float64) []float64 {
-	m := len(sa)
-	amp := make([]float64, m)
+func initAmplitude(t, sa, w []float64) []float64 {
+	m := len(w)
+	et := make([]float64, m)
 	for i := range m {
-		amp[i] = 2.0 * w[i] * sa[i]
+		et[i] = 2.0 * math.Pi / w[i]
 	}
+	_, amp := utils.Interpolate(t, sa, et, true)
 	return amp
 }
 
