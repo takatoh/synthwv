@@ -66,21 +66,23 @@ func (f *Fitting) ErrAverage(acc *seismicwave.Wave) bool {
 }
 
 func pSvSd(t, sa []float64) ([]float64, []float64) {
-	var sv []float64
-	var sd []float64
-	for i := range sa {
+	n := len(sa)
+	sv := make([]float64, n)
+	sd := make([]float64, n)
+	for i := range n {
 		w := 2 * math.Pi / t[i]
-		sv = append(sv, w*sa[i])
-		sd = append(sd, w*w*sa[i])
+		sv[i] = w * sa[i]
+		sd[i] = w * w * sa[i]
 	}
 	return sv, sd
 }
 
 func spec(t, sa, sv, sd []float64) []*response.Response {
-	var s []*response.Response
+	n := len(t)
+	s := make([]*response.Response, n)
 	for i := range t {
 		r := response.NewResponse(t[i], sa[i], sv[i], sd[i])
-		s = append(s, r)
+		s[i] = r
 	}
 	return s
 }
