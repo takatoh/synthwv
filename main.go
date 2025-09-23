@@ -63,31 +63,31 @@ Options:
 
 	// m : number of component waves
 	m := 250
-	// omega : circular frequency points for synthesize
-	// t : period points for synthesize
-	omega := make([]float64, m)
-	t := make([]float64, m)
+	// synthOmega : circular frequency points for synthesize
+	// synthPeriod : period points for synthesize
+	synthOmega := make([]float64, m)
+	synthPeriod := make([]float64, m)
 	for i := range m {
 		f := 0.2 + 0.2*float64(i)
-		omega[i] = 2.0 * math.Pi * f
-		t[i] = 1.0 / f
+		synthOmega[i] = 2.0 * math.Pi * f
+		synthPeriod[i] = 1.0 / f
 	}
 
 	// Phase angles for synthesize
-	phi := phase.RandomPhaseAngles(m)
+	synthPhase := phase.RandomPhaseAngles(m)
 
 	// Initial values of amplitude for sysnthesize
-	ampInitial := initAmplitude(dsaT, dsaVal, t)
+	ampInitial := initAmplitude(dsaT, dsaVal, synthPeriod)
 
 	// Set envelope function
-	env := envelope.GetEnveolope(*optEnvelope)
-	if env == nil {
+	envl := envelope.GetEnveolope(*optEnvelope)
+	if envl == nil {
 		fmt.Printf("Error: Not found envelope named '%s'\n", *optEnvelope)
 		os.Exit(1)
 	}
 
 	// Synthesize a wave
-	synthszr := synthesizer.New(dt, n, omega, phi, env)
+	synthszr := synthesizer.New(dt, n, synthOmega, synthPhase, envl)
 	fittingTestr := fitting.New(fittingPeriod, fittingSa)
 	tests := [](func(*seismicwave.Wave) bool){
 		fittingTestr.MinSpecRatio,   // minimum spectra retio
