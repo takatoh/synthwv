@@ -6,6 +6,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
+	"slices"
 
 	"github.com/takatoh/respspec/response"
 	"github.com/takatoh/seismicwave"
@@ -52,7 +53,8 @@ Options:
 		os.Exit(1)
 	}
 	// Period points for fitting judgement, descending order
-	fittingPeriod := utils.Reverse(response.DefaultPeriod())
+	fittingPeriod := response.DefaultPeriod()
+	slices.Reverse(fittingPeriod)
 	// Spectra (Sa) for fitting judgement
 	_, fittingSa := utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
 
