@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"io"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -54,12 +55,11 @@ func LoadDesignSpectrum(csvfile string) ([]float64, []float64, error) {
 func Interpolate(xs []float64, ys []float64, exs []float64, desc bool) ([]float64, []float64) {
 	txs := make([]float64, len(xs))
 	tys := make([]float64, len(ys))
+	copy(txs, xs)
+	copy(tys, ys)
 	if desc { // xs is descending order
-		txs = Reverse(xs)
-		tys = Reverse(ys)
-	} else { // xs is ascending order
-		copy(txs, xs)
-		copy(tys, ys)
+		slices.Reverse(txs)
+		slices.Reverse(tys)
 	}
 
 	var iys []float64
