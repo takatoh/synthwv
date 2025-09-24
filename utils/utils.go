@@ -87,14 +87,3 @@ func Interpolate(xs []float64, ys []float64, exs []float64, desc bool) ([]float6
 
 	return exs, iys
 }
-
-func Reverse(s []float64) []float64 {
-	n := len(s)
-	sr := make([]float64, n)
-
-	for i := range s {
-		sr[n-i-1] = s[i]
-	}
-
-	return sr
-}
