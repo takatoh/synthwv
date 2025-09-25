@@ -1,7 +1,6 @@
 package iterator
 
 import (
-	"github.com/takatoh/respspec/response"
 	"github.com/takatoh/seismicwave"
 	"github.com/takatoh/synthwv/inspector"
 	"github.com/takatoh/synthwv/synthesizer"
@@ -36,12 +35,7 @@ func (itr *Iterator) Iterate(amp []float64) []float64 {
 		} else if count == itr.iter_limit {
 			return y
 		} else {
-			resp := response.Spectrum(wave, itr.tuner.T, 0.05)
-			sa := make([]float64, len(resp))
-			for i := range resp {
-				sa[i] = resp[i].Sa
-			}
-			amp = itr.tuner.Tune(amp, sa)
+			amp = itr.tuner.Tune(amp, wave)
 		}
 	}
 }

@@ -1,6 +1,11 @@
 package tuner
 
-import "math"
+import (
+	"math"
+
+	"github.com/takatoh/respspec/response"
+	"github.com/takatoh/seismicwave"
+)
 
 type Tuner struct {
 	T   []float64
@@ -31,7 +36,12 @@ func (tnr *Tuner) InitAmplitude() []float64 {
 }
 
 // Values of amplitude for next
-func (tnr *Tuner) Tune(currAmp, currSa []float64) []float64 {
+func (tnr *Tuner) Tune(currAmp []float64, currWave *seismicwave.Wave) []float64 {
+	resp := response.Spectrum(currWave, tnr.T, 0.05)
+	currSa := make([]float64, len(resp))
+	for i := range resp {
+		currSa[i] = resp[i].Sa
+	}
 	amp := make([]float64, len(currAmp))
 	for i := range amp {
 		amp[i] = currAmp[i] * tnr.Sa[i] / currSa[i]
