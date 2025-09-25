@@ -29,3 +29,12 @@ func (tnr *Tuner) InitAmplitude() []float64 {
 	}
 	return amp
 }
+
+// Values of amplitude for next
+func (tnr *Tuner) Tune(currAmp, currSa []float64) []float64 {
+	amp := make([]float64, len(currAmp))
+	for i := range amp {
+		amp[i] = currAmp[i] * tnr.Sa[i] / currSa[i]
+	}
+	return amp
+}
