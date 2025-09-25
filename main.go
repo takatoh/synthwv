@@ -102,7 +102,7 @@ Options:
 	ampInitial := tuner.InitAmplitude()
 
 	// Synthesize a wave
-	itertr := iterator.New(synthszr, inspectr, 3)
+	itertr := iterator.New(synthszr, inspectr, tuner, 3)
 	timehist := itertr.Iterate(ampInitial)
 
 	// Output a result wave time history
