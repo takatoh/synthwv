@@ -113,18 +113,6 @@ Options:
 	}
 }
 
-// Initial values of amplitude for synthesize
-func initAmplitude(dsaT, dsaVal, t []float64) []float64 {
-	amp := make([]float64, len(t))
-	_, sa := utils.Interpolate(dsaT, dsaVal, t, true)
-	for i := range sa {
-		w := 2.0 * math.Pi / t[i]
-		psv := w * sa[i]
-		amp[i] = 2.0 * psv
-	}
-	return amp
-}
-
 // Print result
 func printResult(n int, dt float64, timehist []float64) {
 	fmt.Println("   TIME         ACC.")
