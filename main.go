@@ -63,16 +63,14 @@ Options:
 	dt := *optDt
 	n := int(*optLength / dt)
 
-	// m : number of component waves
-	m := 250
-	// synthOmega : circular frequency points for synthesize
 	// synthPeriod : period points for synthesize
+	synthPeriod := synthesizer.DefaultPeriod()
+	// m : number of component waves
+	m := len(synthPeriod)
+	// synthOmega : circular frequency points for synthesize
 	synthOmega := make([]float64, m)
-	synthPeriod := make([]float64, m)
 	for i := range m {
-		f := 0.2 + 0.2*float64(i)
-		synthOmega[i] = 2.0 * math.Pi * f
-		synthPeriod[i] = 1.0 / f
+		synthOmega[i] = 2.0 * math.Pi * synthPeriod[i]
 	}
 
 	// Phase angles for synthesize
