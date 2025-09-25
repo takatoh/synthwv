@@ -20,3 +20,12 @@ func New(t, sa []float64) *Tuner {
 	p.PSv = psv
 	return p
 }
+
+// Initial values of amplitude for synthesize
+func (tnr *Tuner) InitAmplitude(t []float64) []float64 {
+	amp := make([]float64, len(t))
+	for i := range tnr.PSv {
+		amp[i] = 2.0 * tnr.PSv[i]
+	}
+	return amp
+}
