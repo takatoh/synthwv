@@ -16,6 +16,7 @@ import (
 	"github.com/takatoh/synthwv/iterator"
 	"github.com/takatoh/synthwv/phase"
 	"github.com/takatoh/synthwv/synthesizer"
+	"github.com/takatoh/synthwv/tuner"
 	"github.com/takatoh/synthwv/utils"
 )
 
@@ -93,8 +94,12 @@ Options:
 	}
 	inspectr := inspector.New(tests)
 
+	// Sa for synthesize and tuning
+	_, synthSa := utils.Interpolate(dsaT, dsaVal, synthPeriod, true)
+	// Tuner
+	tuner := tuner.New(synthPeriod, synthSa)
 	// Initial values of amplitude for sysnthesize
-	ampInitial := initAmplitude(dsaT, dsaVal, synthPeriod)
+	ampInitial := tuner.InitAmplitude(synthPeriod)
 
 	// Synthesize a wave
 	itertr := iterator.New(synthszr, inspectr, 3)
