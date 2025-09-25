@@ -70,7 +70,7 @@ Options:
 	// synthOmega : circular frequency points for synthesize
 	synthOmega := make([]float64, m)
 	for i := range m {
-		synthOmega[i] = 2.0 * math.Pi * synthPeriod[i]
+		synthOmega[i] = 2.0 * math.Pi / synthPeriod[i]
 	}
 
 	// Phase angles for synthesize
