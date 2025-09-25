@@ -52,11 +52,6 @@ Options:
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	// Period points for fitting judgement, descending order
-	fittingPeriod := response.DefaultPeriod()
-	slices.Reverse(fittingPeriod)
-	// Spectra (Sa) for fitting judgement
-	_, fittingSa := utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
 
 	// dt : time delta
 	// n : number of synthesized wave
@@ -72,22 +67,23 @@ Options:
 	for i := range m {
 		synthOmega[i] = 2.0 * math.Pi / synthPeriod[i]
 	}
-
 	// Phase angles for synthesize
 	synthPhase := phase.RandomPhaseAngles(m)
-
-	// Initial values of amplitude for sysnthesize
-	ampInitial := initAmplitude(dsaT, dsaVal, synthPeriod)
-
 	// Set envelope function
 	envl := envelope.GetEnveolope(*optEnvelope)
 	if envl == nil {
 		fmt.Printf("Error: Not found envelope named '%s'\n", *optEnvelope)
 		os.Exit(1)
 	}
-
-	// Synthesize a wave
+	// Synthesizer
 	synthszr := synthesizer.New(dt, n, synthOmega, synthPhase, envl)
+
+	// Period points for fitting judgement, descending order
+	fittingPeriod := response.DefaultPeriod()
+	slices.Reverse(fittingPeriod)
+	// Spectra (Sa) for fitting judgement
+	_, fittingSa := utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
+	// Fitting tests and inspector
 	fittingTestr := fitting.New(fittingPeriod, fittingSa)
 	tests := [](func(*seismicwave.Wave) bool){
 		fittingTestr.MinSpecRatio,   // minimum spectra retio
@@ -96,6 +92,11 @@ Options:
 		fittingTestr.SIRatio,        // SI ratio
 	}
 	inspectr := inspector.New(tests)
+
+	// Initial values of amplitude for sysnthesize
+	ampInitial := initAmplitude(dsaT, dsaVal, synthPeriod)
+
+	// Synthesize a wave
 	itertr := iterator.New(synthszr, inspectr, 3)
 	timehist := itertr.Iterate(ampInitial)
 
