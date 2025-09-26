@@ -103,7 +103,12 @@ Options:
 
 	// Synthesize a wave
 	itertr := iterator.New(synthszr, inspectr, tuner, 3)
-	timehist := itertr.Iterate(ampInitial)
+	timehist, err := itertr.Iterate(ampInitial)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(0)
+	}
+	fmt.Println("SUCCESS!")
 
 	// Output a result wave time history
 	if *optCsv {
