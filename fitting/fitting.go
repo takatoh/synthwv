@@ -91,3 +91,19 @@ func spec(t, sa, sv, sd []float64) []*response.Response {
 	}
 	return s
 }
+
+func fittingRange(tmin, tmax float64, t, sa []float64) ([]float64, []float64) {
+	tr := make([]float64, 0)
+	sar := make([]float64, 0)
+	for i := range t {
+		if t[i] < tmin {
+			continue
+		} else if t[i] > tmax {
+			continue
+		} else {
+			tr = append(tr, t[i])
+			sar = append(sar, sa[i])
+		}
+	}
+	return tr, sar
+}
