@@ -99,7 +99,7 @@ Options:
 	// Tuner
 	tuner := tuner.New(synthPeriod, synthSa)
 	// Initial values of amplitude for sysnthesize
-	ampInitial := tuner.InitAmplitude()
+	ampInitial := tuner.InitAmplitude(*optLength)
 
 	// Synthesize a wave
 	itertr := iterator.New(synthszr, inspectr, tuner, 3)
