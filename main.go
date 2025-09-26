@@ -102,7 +102,7 @@ Options:
 	ampInitial := tuner.InitAmplitude(*optLength)
 
 	// Synthesize a wave
-	itertr := iterator.New(synthszr, inspectr, tuner, 3)
+	itertr := iterator.New(synthszr, inspectr, tuner, 30)
 	timehist, err := itertr.Iterate(ampInitial)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
