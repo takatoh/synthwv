@@ -48,7 +48,7 @@ Options:
 
 	// Load a target spectrum for design
 	dsaFile := flag.Arg(0)
-	dsaT, dsaVal, err := utils.LoadDesignSpectrum(dsaFile)
+	targetPeriod, targetSa, err := utils.LoadDesignSpectrum(dsaFile)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -83,7 +83,7 @@ Options:
 	fittingPeriod := response.DefaultPeriod()
 	slices.Reverse(fittingPeriod)
 	// Spectra (Sa) for fitting judgement
-	_, fittingSa := utils.Interpolate(dsaT, dsaVal, fittingPeriod, true)
+	_, fittingSa := utils.Interpolate(targetPeriod, targetSa, fittingPeriod, true)
 	// Fitting tests and inspector
 	fittingTestr := fitting.New(fittingPeriod, fittingSa)
 	tests := [](func(*seismicwave.Wave) bool){
@@ -95,7 +95,7 @@ Options:
 	inspectr := inspector.New(tests)
 
 	// Sa for synthesize and tuning
-	_, synthSa := utils.Interpolate(dsaT, dsaVal, synthPeriod, true)
+	_, synthSa := utils.Interpolate(targetPeriod, targetSa, synthPeriod, true)
 	// Tuner
 	tuner := tuner.New(synthPeriod, synthSa)
 	// Initial values of amplitude for sysnthesize
