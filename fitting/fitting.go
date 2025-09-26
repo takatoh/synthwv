@@ -16,15 +16,16 @@ type Fitting struct {
 
 func New(t, dsa []float64) *Fitting {
 	p := new(Fitting)
-	p.Period = t
-	p.DSa = dsa
-	psv, psd := pSvSd(t, dsa)
-	p.DSv = psv
-	dspec := spec(t, dsa, psv, psd)
-	p.DSI = response.CalcSI(dspec)
+	p.Period = t                    // Target period
+	p.DSa = dsa                     // Target Sa
+	psv, psd := pSvSd(t, dsa)       // Calc pSv, pSd
+	p.DSv = psv                     // Target pDv
+	dspec := spec(t, dsa, psv, psd) // Target spectrun: Sa, pSv, pSd
+	p.DSI = response.CalcSI(dspec)  // Target SI
 	return p
 }
 
+// Minumum spectrum ratio
 func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	minRatio := 1.0
@@ -37,12 +38,14 @@ func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
 	return minRatio >= 0.85
 }
 
+// SI ratio
 func (f *Fitting) SIRatio(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	si := response.CalcSI(resp)
 	return f.DSI/si >= 1.0
 }
 
+// Coefficient of variation
 func (f *Fitting) VariationCoeff(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	eTotal := 0.0
@@ -54,6 +57,7 @@ func (f *Fitting) VariationCoeff(acc *seismicwave.Wave) bool {
 	return variationCoeff <= 0.05
 }
 
+// Error average
 func (f *Fitting) ErrAverage(acc *seismicwave.Wave) bool {
 	resp := response.Spectrum(acc, f.Period, 0.05)
 	eTotal := 0.0
@@ -65,6 +69,7 @@ func (f *Fitting) ErrAverage(acc *seismicwave.Wave) bool {
 	return math.Abs(1.0-errAve) <= 0.02
 }
 
+// pseudo Sv, Sd
 func pSvSd(t, sa []float64) ([]float64, []float64) {
 	n := len(sa)
 	sv := make([]float64, n)
