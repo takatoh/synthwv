@@ -34,6 +34,7 @@ func (s *Synthesizer) Synthesize(a []float64) []float64 {
 	return y
 }
 
+// Default syntheize periods: 250 points
 func DefaultPeriod() []float64 {
 	return []float64{
 		10.0000000,
