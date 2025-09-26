@@ -108,7 +108,6 @@ Options:
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(0)
 	}
-	fmt.Println("SUCCESS!")
 
 	// Output a result wave time history
 	if *optCsv {
@@ -116,6 +115,7 @@ Options:
 	} else {
 		printResult(n, dt, timehist)
 	}
+	fmt.Println("SUCCESS!")
 }
 
 // Print result
