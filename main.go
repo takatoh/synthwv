@@ -20,7 +20,7 @@ import (
 	"github.com/takatoh/synthwv/utils"
 )
 
-const progVersion = "v0.2.0"
+const progVersion = "v0.3.0"
 
 func main() {
 	progName := filepath.Base(os.Args[0])
