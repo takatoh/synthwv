@@ -26,7 +26,7 @@ func New(synthesizer *synthesizer.Synthesizer, inspector *inspector.Inspector, t
 	return p
 }
 
-func (itr *Iterator) Iterate(amp []float64) []float64 {
+func (itr *Iterator) Iterate(amp []float64) ([]float64, error) {
 	var y []float64
 	count := 0
 	for {
@@ -35,9 +35,9 @@ func (itr *Iterator) Iterate(amp []float64) []float64 {
 		y = itr.synthesizer.Synthesize(amp)
 		wave := seismicwave.Make("", itr.synthesizer.Dt, y)
 		if itr.inspector.Inspect(wave) {
-			return y
+			return y, nil
 		} else if count == itr.iter_limit {
-			return y
+			return y, fmt.Errorf("[WARN] ITERATION LIMIT OVER: %d", count)
 		} else {
 			amp = itr.tuner.Tune(amp, wave)
 		}
