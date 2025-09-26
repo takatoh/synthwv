@@ -1,6 +1,9 @@
 package iterator
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/takatoh/seismicwave"
 	"github.com/takatoh/synthwv/inspector"
 	"github.com/takatoh/synthwv/synthesizer"
@@ -28,6 +31,7 @@ func (itr *Iterator) Iterate(amp []float64) []float64 {
 	count := 0
 	for {
 		count += 1
+		fmt.Fprintf(os.Stderr, "ITERATION COUNT: %d\n", count)
 		y = itr.synthesizer.Synthesize(amp)
 		wave := seismicwave.Make("", itr.synthesizer.Dt, y)
 		if itr.inspector.Inspect(wave) {
