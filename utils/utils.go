@@ -73,10 +73,10 @@ func Interpolate(xs []float64, ys []float64, exs []float64, desc bool) ([]float6
 			}
 			if v1 == exs[i] {
 				iys = append(iys, tys[j])
-				v0 = v1
+				//v0 = v1
 				break
 			} else if exs[i] < v1 {
-				v := (ys[j] - ys[j-1]) / (v1 - v0) * (exs[i] - exs[i-1])
+				v := tys[j-1] + (tys[j]-tys[j-1])/(v1-v0)*(exs[i]-v0)
 				iys = append(iys, v)
 				break
 			} else {
