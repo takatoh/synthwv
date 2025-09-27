@@ -25,12 +25,13 @@ func New(t, dsa []float64) *Fitting {
 	return p
 }
 
-// Minumum spectrum ratio
+// Minumum spectrum ratio: 0.02-5 sec
 func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
-	resp := response.Spectrum(acc, f.Period, 0.05)
+	period, sa := fittingRange(0.02, 5.0, f.Period, f.DSa)
+	resp := response.Spectrum(acc, period, 0.05)
 	minRatio := 1.0
 	for i := range resp {
-		ratio := resp[i].Sa / f.DSa[i]
+		ratio := resp[i].Sa / sa[i]
 		if ratio < minRatio {
 			minRatio = ratio
 		}
@@ -38,31 +39,34 @@ func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
 	return minRatio >= 0.85
 }
 
-// SI ratio
+// SI ratio: 1-5 sec
 func (f *Fitting) SIRatio(acc *seismicwave.Wave) bool {
-	resp := response.Spectrum(acc, f.Period, 0.05)
+	period, _ := fittingRange(1.0, 5.0, f.Period, f.DSa)
+	resp := response.Spectrum(acc, period, 0.05)
 	si := response.CalcSI(resp)
 	return f.DSI/si >= 1.0
 }
 
-// Coefficient of variation
+// Coefficient of variation: 0.02-5 sec
 func (f *Fitting) VariationCoeff(acc *seismicwave.Wave) bool {
-	resp := response.Spectrum(acc, f.Period, 0.05)
+	period, sa := fittingRange(0.02, 5.0, f.Period, f.DSa)
+	resp := response.Spectrum(acc, period, 0.05)
 	eTotal := 0.0
 	for i := range resp {
-		e := resp[i].Sa / f.DSa[i]
+		e := resp[i].Sa / sa[i]
 		eTotal += math.Pow((e - 1.0), 2)
 	}
 	variationCoeff := math.Sqrt(eTotal / float64(len(resp)))
 	return variationCoeff <= 0.05
 }
 
-// Error average
+// Error average: 0.02-5 sec
 func (f *Fitting) ErrAverage(acc *seismicwave.Wave) bool {
-	resp := response.Spectrum(acc, f.Period, 0.05)
+	period, sa := fittingRange(0.02, 5.0, f.Period, f.DSa)
+	resp := response.Spectrum(acc, period, 0.05)
 	eTotal := 0.0
 	for i := range resp {
-		e := resp[i].Sa / f.DSa[i]
+		e := resp[i].Sa / sa[i]
 		eTotal += e
 	}
 	errAve := eTotal / float64(len(resp))
