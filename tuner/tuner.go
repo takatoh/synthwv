@@ -39,13 +39,13 @@ func (tnr *Tuner) InitAmplitude(length float64) []float64 {
 // Values of amplitude for next
 func (tnr *Tuner) Tune(currAmp []float64, currWave *seismicwave.Wave) []float64 {
 	resp := response.Spectrum(currWave, tnr.T, 0.05)
-	currSv := make([]float64, len(resp))
+	currSa := make([]float64, len(resp))
 	for i := range resp {
-		currSv[i] = resp[i].Sv
+		currSa[i] = resp[i].Sa
 	}
 	amp := make([]float64, len(currAmp))
 	for i := range amp {
-		amp[i] = currAmp[i] * tnr.PSv[i] / currSv[i]
+		amp[i] = currAmp[i] * tnr.Sa[i] / currSa[i]
 	}
 	return amp
 }
