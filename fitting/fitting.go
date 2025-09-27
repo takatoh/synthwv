@@ -21,7 +21,7 @@ func New(t, dsa []float64) *Fitting {
 	psv, psd := pSvSd(t, dsa)       // Calc pSv, pSd
 	p.DSv = psv                     // Target pDv
 	dspec := spec(t, dsa, psv, psd) // Target spectrun: Sa, pSv, pSd
-	p.DSI = response.CalcSI(dspec)  // Target SI
+	p.DSI = calcSI(dspec)           // Target SI
 	return p
 }
 
@@ -43,7 +43,7 @@ func (f *Fitting) MinSpecRatio(acc *seismicwave.Wave) bool {
 func (f *Fitting) SIRatio(acc *seismicwave.Wave) bool {
 	period, _ := fittingRange(1.0, 5.0, f.Period, f.DSa)
 	resp := response.Spectrum(acc, period, 0.05)
-	si := response.CalcSI(resp)
+	si := calcSI(resp)
 	return f.DSI/si >= 1.0
 }
 
