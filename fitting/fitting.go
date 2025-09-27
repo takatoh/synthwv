@@ -117,7 +117,7 @@ func calcSI(resp []*response.Response) float64 {
 	for i := 1; i < len(resp); i++ {
 		r0 := resp[i-1]
 		r1 := resp[i]
-		if 0.1 < r1.Period && r1.Period <= 5.0 {
+		if 1.0 < r1.Period && r1.Period <= 5.0 {
 			si = si + (r0.Sv+r1.Sv)*(r1.Period-r0.Period)/2.0
 		}
 	}
