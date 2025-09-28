@@ -6,9 +6,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"slices"
 
-	"github.com/takatoh/respspec/response"
 	"github.com/takatoh/seismicwave"
 	"github.com/takatoh/synthwv/envelope"
 	"github.com/takatoh/synthwv/fitting"
@@ -80,8 +78,7 @@ Options:
 	synthszr := synthesizer.New(dt, n, synthOmega, synthPhase, envl)
 
 	// Period points for fitting judgement, descending order
-	fittingPeriod := response.DefaultPeriod()
-	slices.Reverse(fittingPeriod)
+	fittingPeriod := fitting.DefaultPeriod()
 	// Spectra (Sa) for fitting judgement
 	_, fittingSa := utils.Interpolate(targetPeriod, targetSa, fittingPeriod, true)
 	// Fitting tests and inspector
