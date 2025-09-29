@@ -59,6 +59,8 @@ Options:
 
 	// synthPeriod : period points for synthesize
 	synthPeriod := synthesizer.DefaultPeriod()
+	// Sa for synthesize and tuning
+	_, synthSa := utils.Interpolate(targetPeriod, targetSa, synthPeriod, true)
 	// m : number of component waves
 	m := len(synthPeriod)
 	// synthOmega : circular frequency points for synthesize
@@ -89,10 +91,9 @@ Options:
 		fittingTestr.ErrAverage,     // error average
 		fittingTestr.SIRatio,        // SI ratio
 	}
+	// Inspector
 	inspectr := inspector.New(tests)
 
-	// Sa for synthesize and tuning
-	_, synthSa := utils.Interpolate(targetPeriod, targetSa, synthPeriod, true)
 	// Tuner
 	tuner := tuner.New(synthPeriod, synthSa)
 	// Initial values of amplitude for sysnthesize
