@@ -34,7 +34,8 @@ func (s *Synthesizer) Synthesize(a []float64) []float64 {
 	return y
 }
 
-// Default syntheize periods: 250 points
+// Default syntheize periods:
+// 250 points divided equally in frecquency domain.
 func DefaultPeriod() []float64 {
 	return []float64{
 		10.000000,
