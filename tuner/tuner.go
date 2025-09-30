@@ -20,7 +20,7 @@ func New(t, sa []float64) *Tuner {
 	psv := make([]float64, len(sa))
 	for i := range sa {
 		w := 2.0 * math.Pi / t[i]
-		psv[i] = w * sa[i]
+		psv[i] = sa[i] / w
 	}
 	p.PSv = psv
 	return p
